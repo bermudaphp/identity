@@ -48,6 +48,7 @@ class IdentityMap implements IdentityMapInterface {
      */
     public function set(string $id, object $object) : self {
         $this->objects[$id] = $object;
+        return $this;
     }
 
     /**
