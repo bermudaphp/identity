@@ -6,7 +6,7 @@ namespace Lobster\Identity;
 
 /**
  * Interface ObjectIdGenerator
- * @package Halcyon\ORM
+ * @package Lobster\Identity
  */
 interface ObjectIdGeneratorInterface {
 
