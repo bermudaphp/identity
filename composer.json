@@ -1,0 +1,12 @@
+{
+    "name": "lobster-php/identity-map",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Lobster\\Identity\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">= 7.2.0",
+    }
+}
