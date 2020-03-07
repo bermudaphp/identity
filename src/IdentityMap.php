@@ -42,12 +42,18 @@ class IdentityMap implements IdentityMapInterface {
     }
 
     /**
-     * @param string $id
      * @param object $object
+     * @param string|null $id
      * @return IdentityMap
      */
-    public function set(string $id, object $object) : self {
+    public function set(object $object, string $id = null) : self {
+        
+        if($id == null){
+            $id = $this->generator->generate($object);
+        }
+        
         $this->objects[$id] = $object;
+        
         return $this;
     }
 
@@ -60,10 +66,13 @@ class IdentityMap implements IdentityMapInterface {
         array $objects,
         ObjectIdGeneratorInterface $idGenerator = null
     ) : self {
+        
         $map = new static($idGenerator);
+        
         foreach ($objects as $obj){
             $map->add($obj);
         }
+        
         return $map;
     }
 
@@ -106,6 +115,7 @@ class IdentityMap implements IdentityMapInterface {
      * @return string|null
      */
     public function idOf(object $object) :? string {
+        
         foreach ($this->objects as $id => $obj){
             if($object === $obj){
                 return $id;
