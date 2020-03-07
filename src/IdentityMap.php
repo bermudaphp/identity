@@ -42,18 +42,12 @@ class IdentityMap implements IdentityMapInterface {
     }
 
     /**
+     * @param string $id
      * @param object $object
-     * @param string|null $id
      * @return IdentityMap
      */
-    public function set(object $object, string $id = null) : self {
-        
-        if($id == null){
-            $id = $this->generator->generate($object);
-        }
-        
+    public function set(string $id, object $object) : self { 
         $this->objects[$id] = $object;
-        
         return $this;
     }
 
