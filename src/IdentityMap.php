@@ -4,7 +4,8 @@
 namespace Lobster\Identity\Map;
 
 
-use Traversable;
+use ArrayIterator;
+
 
 /**
  * Class Map
@@ -46,8 +47,16 @@ class IdentityMap implements IdentityMapInterface {
      * @param object $object
      * @return IdentityMap
      */
-    public function set(string $id, object $object) : self { 
-        $this->objects[$id] = $object;
+    public function set(string $id, object $object) : self {
+        
+        $cls = get_class($object);
+        
+        if($this->has($cls, $id)){
+            throw DuplicateException::new($cls, $id);
+        }
+        
+        $this->objects[$cls][$id] = $object;
+        
         return $this;
     }
 
@@ -60,38 +69,41 @@ class IdentityMap implements IdentityMapInterface {
         array $objects,
         ObjectIdGeneratorInterface $idGenerator = null
     ) : self {
-        
+
         $map = new static($idGenerator);
-        
+
         foreach ($objects as $obj){
             $map->add($obj);
         }
-        
+
         return $map;
     }
 
     /**
+     * @param string $cls
      * @param string $id
      * @return bool
      */
-    public function has(string $id) : bool {
-        return array_key_exists($id, $this->objects);
+    public function has(string $cls, string $id) : bool {
+        return array_key_exists($id, $this->objects[$cls] ?? []);
     }
 
     /**
+     * @param string $cls
      * @param string $id
      * @return object|null
      */
-    public function get(string $id) :? object {
-        return $this->objects[$id] ?? null;
+    public function get(string $cls, string $id) :? object {
+        return $this->objects[$cls][$id] ?? null;
     }
 
     /**
+     * @param string $cls
      * @param string $id
      * @return IdentityMap
      */
-    public function remove(string $id) : self {
-        unset($this->objects[$id]);
+    public function remove(string $cls, string $id) : self {
+        unset($this->objects[$cls][$id]);
     }
 
     /**
@@ -100,7 +112,7 @@ class IdentityMap implements IdentityMapInterface {
      */
     public function removeObject(object $obj) : self {
         return $this->remove(
-            (string) $this->idOf($obj)
+            get_class($obj), (string) $this->idOf($obj)
         );
     }
 
@@ -109,8 +121,8 @@ class IdentityMap implements IdentityMapInterface {
      * @return string|null
      */
     public function idOf(object $object) :? string {
-        
-        foreach ($this->objects as $id => $obj){
+
+        foreach ($this->objects[get_class($object)] ?? [] as $id => $obj){
             if($object === $obj){
                 return $id;
             }
@@ -128,13 +140,9 @@ class IdentityMap implements IdentityMapInterface {
     }
 
     /**
-     * Retrieve an external iterator
-     * @link https://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
-     * <b>Traversable</b>
-     * @since 5.0.0
+     * @inheritDoc
      */
-    public function getIterator() {
-        return new \ArrayIterator($this->objects);
+    public function getIterator() : ArrayIterator {
+        return new ArrayIterator($this->objects);
     }
 }
