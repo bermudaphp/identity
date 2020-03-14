@@ -12,7 +12,7 @@ interface ObjectIdGeneratorInterface {
 
     /**
      * @param object $object
-     * @return string
+     * @return string|null
      */
-    public function generate(object $object): string ;
+    public function generate(object $object):? string ;
 }
