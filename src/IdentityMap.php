@@ -8,7 +8,7 @@ use ArrayIterator;
 
 
 /**
- * Class Map
+ * Class IdentityMap
  * @package Lobster\Identity
  */
 class IdentityMap implements IdentityMapInterface {
