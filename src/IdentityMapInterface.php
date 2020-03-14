@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Lobster\Identity\Map;
+namespace Lobster\Identity;
 
 
 /**
@@ -14,7 +14,7 @@ interface IdentityMapInterface extends \IteratorAggregate {
      * @param object $object
      * @throws InvalidObjectException
      * @throws DuplicateObjectException
-     * @return IdentityMap
+     * @return IdentityMapInterface
      */
     public function add(object $object) : self ;
     
@@ -22,19 +22,9 @@ interface IdentityMapInterface extends \IteratorAggregate {
      * @param string $cls
      * @param object $object
      * @throws DuplicateObjectException
-     * @return IdentityMap
+     * @return IdentityMapInterface
      */
     public function set(string $cls, object $object) : self ;
-
-    /**
-     * @param object[] $objects
-     * @param ObjectIdGeneratorInterface|null $idGenerator
-     * @return IdentityMap
-     */
-    public static function from(
-        array $objects,
-        ObjectIdGeneratorInterface $idGenerator = null
-    ) : self ;
 
     /**
      * @param string $cls
