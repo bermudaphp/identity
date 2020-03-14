@@ -4,8 +4,6 @@
 namespace Lobster\Identity\Map;
 
 
-use Traversable;
-
 /**
  * interface IdentityMapInterface
  * @package Lobster\Identity
@@ -19,11 +17,12 @@ interface IdentityMapInterface extends \IteratorAggregate {
     public function add(object $object) : self ;
     
     /**
-     * @param string $id
+     * @param string $cls
      * @param object $object
+     * @throws 
      * @return IdentityMap
      */
-    public function set(string $id, object $object) : self ;
+    public function set(string $cls, object $object) : self ;
 
     /**
      * @param object[] $objects
@@ -36,10 +35,11 @@ interface IdentityMapInterface extends \IteratorAggregate {
     ) : self ;
 
     /**
+     * @param string $cls
      * @param string $id
      * @return bool
      */
-    public function has(string $id) : bool ;
+    public function has(string $cls, string $id) : bool ;
     
     /**
      * @param string $id
@@ -48,10 +48,11 @@ interface IdentityMapInterface extends \IteratorAggregate {
     public function get(string $id) :? object ;
 
     /**
+     * @param string $cls
      * @param string $id
      * @return IdentityMap
      */
-    public function remove(string $id) : self ;
+    public function remove(string $cls, string $id) : self ;
 
     /**
      * @param object $obj
