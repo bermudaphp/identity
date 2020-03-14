@@ -12,6 +12,8 @@ interface IdentityMapInterface extends \IteratorAggregate {
 
     /**
      * @param object $object
+     * @throws InvalidObjectException
+     * @throws DuplicateObjectException
      * @return IdentityMap
      */
     public function add(object $object) : self ;
@@ -19,7 +21,7 @@ interface IdentityMapInterface extends \IteratorAggregate {
     /**
      * @param string $cls
      * @param object $object
-     * @throws 
+     * @throws DuplicateObjectException
      * @return IdentityMap
      */
     public function set(string $cls, object $object) : self ;
