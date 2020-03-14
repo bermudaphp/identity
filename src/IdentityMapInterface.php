@@ -42,10 +42,11 @@ interface IdentityMapInterface extends \IteratorAggregate {
     public function has(string $cls, string $id) : bool ;
     
     /**
+     * @param string $cls
      * @param string $id
      * @return object|null
      */
-    public function get(string $id) :? object ;
+    public function get(string $cls, string $id) :? object ;
 
     /**
      * @param string $cls
