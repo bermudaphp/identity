@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Lobster\Identity\Map;
+namespace Lobster\Identity;
 
 
 use ArrayIterator;
@@ -28,7 +28,7 @@ class IdentityMap implements IdentityMapInterface {
      * @param ObjectIdGeneratorInterface $idGenerator|null
      */
     public function __construct(ObjectIdGeneratorInterface $idGenerator = null) {
-        $this->generator = $idGenerator ?? new IdGenerator();
+        $this->generator = $idGenerator ?? new ObjectIdGenerator();
     }
 
     /**
@@ -37,7 +37,7 @@ class IdentityMap implements IdentityMapInterface {
      * @throws DuplicateObjectException
      * @return IdentityMap
      */
-    public function add(object $object) : self {
+    public function add(object $object) : IdentityMapInterface {
         
         $id = $this->generator->generate($object);
         
@@ -54,7 +54,7 @@ class IdentityMap implements IdentityMapInterface {
      * @throws DuplicateObjectException
      * @return IdentityMap
      */
-    public function set(string $id, object $object) : self {
+    public function set(string $id, object $object) : IdentityMapInterface {
         
         $cls = get_class($object);
         
@@ -109,7 +109,7 @@ class IdentityMap implements IdentityMapInterface {
      * @param string $id
      * @return IdentityMap
      */
-    public function remove(string $cls, string $id) : self {
+    public function remove(string $cls, string $id) : IdentityMapInterface {
         unset($this->objects[$cls][$id]);
     }
 
@@ -117,7 +117,7 @@ class IdentityMap implements IdentityMapInterface {
      * @param object $obj
      * @return IdentityMap
      */
-    public function removeObject(object $obj) : self {
+    public function removeObject(object $obj) : IdentityMapInterface {
         return $this->remove(
             get_class($obj), (string) $this->idOf($obj)
         );
