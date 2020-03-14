@@ -33,18 +33,25 @@ class IdentityMap implements IdentityMapInterface {
 
     /**
      * @param object $object
+     * @throws InvalidObjectException
+     * @throws DuplicateObjectException
      * @return IdentityMap
      */
     public function add(object $object) : self {
-        return $this->set(
-            $this->generator->generate($object),
-            $object
-        );
+        
+        $id = $this->generator->generate($object);
+        
+        if($id == null){
+            throw InvalidObjectException::new($object);
+        }
+        
+        return $this->set($id, $object);
     }
 
     /**
      * @param string $id
      * @param object $object
+     * @throws DuplicateObjectException
      * @return IdentityMap
      */
     public function set(string $id, object $object) : self {
@@ -52,7 +59,7 @@ class IdentityMap implements IdentityMapInterface {
         $cls = get_class($object);
         
         if($this->has($cls, $id)){
-            throw DuplicateException::new($cls, $id);
+            throw DuplicateObjectException::new($cls, $id);
         }
         
         $this->objects[$cls][$id] = $object;
