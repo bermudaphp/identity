@@ -1,4 +1,4 @@
 # Install
 ```bash
-composer require lobster-php/identity-map
+composer require bermudaphp/identity-map
 ```
