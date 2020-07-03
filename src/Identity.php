@@ -10,12 +10,11 @@ namespace Bermuda\Identity;
  */
 class Identity implements IdentityInterface
 {
-    private GeneratorInterface $generator;
-
     /**
      * @var object[]
      */
     private array $objects = [];
+    private GeneratorInterface $generator;
 
     public function __construct(GeneratorInterface $generator = null) 
     {
