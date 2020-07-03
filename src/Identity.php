@@ -23,9 +23,8 @@ class Identity implements IdentityInterface
 
     /**
      * @param object $object
-     * @throws InvalidObjectException
-     * @throws DuplicateObjectException
-     * @return Identity
+     * @throws IdentityException
+     * @return $this
      */
     public function add(object $object): IdentityInterface 
     {    
@@ -42,8 +41,8 @@ class Identity implements IdentityInterface
     /**
      * @param string $id
      * @param object $object
-     * @throws DuplicateObjectException
-     * @return IdentityMap
+     * @throws IdentityException
+     * @return $this
      */
     public function set(string $id, object $object): IdentityInterface
     {    
