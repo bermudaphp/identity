@@ -52,7 +52,7 @@ class Identity implements IdentityInterface
         
         if($this->has($cls, $id))
         {
-            throw IdentityException::duplicate($cls, $id);
+            throw IdentityException::duplicate($object, $id);
         }
         
         $this->objects[$cls][$id] = $object;
@@ -61,8 +61,8 @@ class Identity implements IdentityInterface
 
     /**
      * @param object[] $objects
-     * @param ObjectIdGeneratorInterface|null $idGenerator
-     * @return IdentityMap
+     * @param ObjectIdGeneratorInterface|null $generator
+     * @return Identity
      */
     public static function from(array $objects,
         ObjectIdGeneratorInterface $generator = null
