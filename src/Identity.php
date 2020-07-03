@@ -1,47 +1,39 @@
 <?php
 
 
-namespace Lobster\Identity;
-
-
-use ArrayIterator;
+namespace Bermuda\Identity;
 
 
 /**
- * Class IdentityMap
- * @package Lobster\Identity
+ * Class Identity
+ * @package Bermuda\Identity
  */
-class IdentityMap implements IdentityMapInterface {
-
-    /**
-     * @var ObjectIdGeneratorInterface
-     */
-    private $generator;
+class Identity implements IdentityInterface
+{
+    private ObjectIdGeneratorInterface $generator;
 
     /**
      * @var object[]
      */
-    private $objects = [];
+    private array $objects = [];
 
-    /**
-     * IdentityMap constructor.
-     * @param ObjectIdGeneratorInterface $idGenerator|null
-     */
-    public function __construct(ObjectIdGeneratorInterface $idGenerator = null) {
-        $this->generator = $idGenerator ?? new ObjectIdGenerator();
+    public function __construct(ObjectIdGeneratorInterface $generator = null) 
+    {
+        $this->generator = $generator ?? new ObjectIdGenerator();
     }
 
     /**
      * @param object $object
      * @throws InvalidObjectException
      * @throws DuplicateObjectException
-     * @return IdentityMap
+     * @return Identity
      */
-    public function add(object $object) : IdentityMapInterface {
-        
+    public function add(object $object): IdentityInterface 
+    {    
         $id = $this->generator->generate($object);
         
-        if($id == null){
+        if($id == null)
+        {
             throw InvalidObjectException::new($object);
         }
         
@@ -54,16 +46,16 @@ class IdentityMap implements IdentityMapInterface {
      * @throws DuplicateObjectException
      * @return IdentityMap
      */
-    public function set(string $id, object $object) : IdentityMapInterface {
-        
+    public function set(string $id, object $object) : IdentityInterface
+    {    
         $cls = get_class($object);
         
-        if($this->has($cls, $id)){
+        if($this->has($cls, $id))
+        {
             throw DuplicateObjectException::new($cls, $id);
         }
         
         $this->objects[$cls][$id] = $object;
-        
         return $this;
     }
 
@@ -72,18 +64,18 @@ class IdentityMap implements IdentityMapInterface {
      * @param ObjectIdGeneratorInterface|null $idGenerator
      * @return IdentityMap
      */
-    public static function from(
-        array $objects,
-        ObjectIdGeneratorInterface $idGenerator = null
-    ) : self {
+    public static function from(array $objects,
+        ObjectIdGeneratorInterface $generator = null
+    ): self 
+    {
+        $identity = new static($generator);
 
-        $map = new static($idGenerator);
-
-        foreach ($objects as $obj){
+        foreach ($objects as $obj)
+        {
             $map->add($obj);
         }
 
-        return $map;
+        return $identity;
     }
 
     /**
@@ -91,7 +83,8 @@ class IdentityMap implements IdentityMapInterface {
      * @param string $id
      * @return bool
      */
-    public function has(string $cls, string $id) : bool {
+    public function has(string $cls, string $id): bool 
+    {
         return array_key_exists($id, $this->objects[$cls] ?? []);
     }
 
@@ -100,7 +93,8 @@ class IdentityMap implements IdentityMapInterface {
      * @param string $id
      * @return object|null
      */
-    public function get(string $cls, string $id) :? object {
+    public function get(string $cls, string $id):? object 
+    {
         return $this->objects[$cls][$id] ?? null;
     }
 
@@ -109,7 +103,8 @@ class IdentityMap implements IdentityMapInterface {
      * @param string $id
      * @return IdentityMap
      */
-    public function remove(string $cls, string $id) : IdentityMapInterface {
+    public function remove(string $cls, string $id): IdentityInterface 
+    {
         unset($this->objects[$cls][$id]);
     }
 
@@ -117,20 +112,21 @@ class IdentityMap implements IdentityMapInterface {
      * @param object $obj
      * @return IdentityMap
      */
-    public function removeObject(object $obj) : IdentityMapInterface {
-        return $this->remove(
-            get_class($obj), (string) $this->idOf($obj)
-        );
+    public function removeObject(object $obj): IdentityInterface 
+    {
+        return $this->remove(get_class($obj), (string) $this->idOf($obj));
     }
 
     /**
      * @param object $object
      * @return string|null
      */
-    public function idOf(object $object) :? string {
-
-        foreach ($this->objects[get_class($object)] ?? [] as $id => $obj){
-            if($object === $obj){
+    public function idOf(object $object):? string 
+    {
+        foreach ($this->objects[get_class($object)] ?? [] as $id => $obj)
+        {
+            if($object === $obj)
+            {
                 return $id;
             }
         }
@@ -142,14 +138,19 @@ class IdentityMap implements IdentityMapInterface {
      * @param object $object
      * @return bool
      */
-    public function hasObject(object $object) : bool {
+    public function hasObject(object $object): bool 
+    {
         return $this->idOf($object) !== null;
     }
 
     /**
      * @inheritDoc
      */
-    public function getIterator() : ArrayIterator {
-        return new ArrayIterator($this->objects);
+    public function getIterator(): \Generator 
+    {
+        foreach($this->objects as $object)
+        {
+            yield $object;
+        }
     }
 }
