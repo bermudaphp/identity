@@ -19,4 +19,13 @@ class IdentityException extends \RuntimeException
     {
         return new static(sprintf('An instance of the %s class with id: %s is already contained in the map', $cls, $id));
     }
+    
+    /**
+     * @param object $obj
+     * @return self
+     */
+    public static function objectId(object $obj): self
+    {
+        return new static(sprintf('Cannot generate an id for an object of class %s', get_class($obj)));
+    }
 }
