@@ -8,7 +8,7 @@ namespace Bermuda\Identity;
  * Interface IdGeneratorInterface
  * @package Bermuda\Identity
  */
-interface IdGeneratorInterface
+interface GeneratorInterface
 {
     /**
      * @param object $object
