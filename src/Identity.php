@@ -10,16 +10,16 @@ namespace Bermuda\Identity;
  */
 class Identity implements IdentityInterface
 {
-    private ObjectIdGeneratorInterface $generator;
+    private GeneratorInterface $generator;
 
     /**
      * @var object[]
      */
     private array $objects = [];
 
-    public function __construct(ObjectIdGeneratorInterface $generator = null) 
+    public function __construct(GeneratorInterface $generator = null) 
     {
-        $this->generator = $generator ?? new ObjectIdGenerator();
+        $this->generator = $generator ?? new Generator();
     }
 
     /**
@@ -61,18 +61,16 @@ class Identity implements IdentityInterface
 
     /**
      * @param object[] $objects
-     * @param ObjectIdGeneratorInterface|null $generator
-     * @return Identity
+     * @param GeneratorInterface|null $generator
+     * @return static
      */
-    public static function from(array $objects,
-        ObjectIdGeneratorInterface $generator = null
-    ): self 
+    public static function create(array $objects, GeneratorInterface $generator = null): self 
     {
         $identity = new static($generator);
 
         foreach ($objects as $obj)
         {
-            $map->add($obj);
+            $identity->add($obj);
         }
 
         return $identity;
