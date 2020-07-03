@@ -34,7 +34,7 @@ class Identity implements IdentityInterface
         
         if($id == null)
         {
-            throw InvalidObjectException::new($object);
+            throw IdentityException::fromObject($object);
         }
         
         return $this->set($id, $object);
@@ -46,13 +46,13 @@ class Identity implements IdentityInterface
      * @throws DuplicateObjectException
      * @return IdentityMap
      */
-    public function set(string $id, object $object) : IdentityInterface
+    public function set(string $id, object $object): IdentityInterface
     {    
         $cls = get_class($object);
         
         if($this->has($cls, $id))
         {
-            throw DuplicateObjectException::new($cls, $id);
+            throw IdentityException::duplicate($cls, $id);
         }
         
         $this->objects[$cls][$id] = $object;
