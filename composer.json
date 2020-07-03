@@ -1,5 +1,5 @@
 {
-    "name": "bermudaphp/identity-map",
+    "name": "bermudaphp/identity",
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -7,6 +7,6 @@
         }
     },
     "require": {
-        "php": ">= 7.2"
+        "php": ">= 7.4"
     }
 }
