@@ -1,20 +1,21 @@
 <?php
 
 
-namespace Lobster\Identity;
+namespace Bermuda\Identity;
 
 
 /**
- * Class ObjectIdGenerator
- * @package Lobster\Identity
+ * Class Generator
+ * @package Bermuda\Identity
  */
-class ObjectIdGenerator implements ObjectIdGeneratorInterface {
-
+class Generator implements ObjectIdGeneratorInterface 
+{
     /**
      * @param object $object
      * @return string
      */
-    public function generate(object $object) : string {
+    public function generate(object $object): string 
+    {
         return spl_object_hash($object);
     }
 }
