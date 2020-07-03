@@ -24,7 +24,7 @@ class IdentityException extends \RuntimeException
      * @param object $obj
      * @return self
      */
-    public static function objectId(object $obj): self
+    public static function fromObject(object $obj): self
     {
         return new static(sprintf('Cannot generate an id for an object of class %s', get_class($obj)));
     }
