@@ -1,15 +1,15 @@
 <?php
 
 
-namespace Lobster\Identity;
+namespace Bermuda\Identity;
 
 
 /**
- * Interface ObjectIdGenerator
- * @package Lobster\Identity
+ * Interface IdGeneratorInterface
+ * @package Bermuda\Identity
  */
-interface ObjectIdGeneratorInterface {
-
+interface IdGeneratorInterface
+{
     /**
      * @param object $object
      * @return string|null
