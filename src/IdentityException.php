@@ -15,9 +15,9 @@ class IdentityException extends \RuntimeException
      * @param string $id
      * @return self
      */
-    public static function duplicate(string $cls, string $id): self
+    public static function duplicate(object $obj, string $id): self
     {
-        return new static(sprintf('An instance of the %s class with id: %s is already contained in the map', $cls, $id));
+        return new static(sprintf('An instance of the %s class with id: %s is already contained in the map', get_class($obj), $id));
     }
     
     /**
