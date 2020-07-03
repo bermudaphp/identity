@@ -1,4 +1,4 @@
 # Install
 ```bash
-composer require bermudaphp/identity-map
+composer require bermudaphp/identity
 ```
