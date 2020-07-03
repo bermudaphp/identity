@@ -1,12 +1,12 @@
 {
-    "name": "lobster-php/identity-map",
+    "name": "bermudaphp/identity-map",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Lobster\\Identity\\": "src/"
+            "Bermuda\\Identity\\": "src/"
         }
     },
     "require": {
-        "php": ">= 7.2.0"
+        "php": ">= 7.2"
     }
 }
