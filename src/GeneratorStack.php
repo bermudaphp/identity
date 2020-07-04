@@ -5,7 +5,7 @@ namespace Bermuda\Identity;
 
 
 /**
- * Class StackGenerator
+ * Class GeneratorStack
  * @package Bermuda\Identity
  */
 class GeneratorStack implements ObjectIdGeneratorInterface 
